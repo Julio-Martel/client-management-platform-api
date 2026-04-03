@@ -1,12 +1,9 @@
 const express = require('express');
+const clientesRoutes = require('../src/routes/clientes.routes');
+
 const app = express();
-
-const server = require('../src/server');
-
 app.use(express.json());
 
-app.use('/clientes', server);
+app.use('/clientes', clientesRoutes);
 
-app.listen(3000,() => {
-    console.log('Servidor en funcionamiento...');
-})
+module.exports = app;

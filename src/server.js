@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
+const app = require('../src/app');
 
+const PORT = 3000;
 
-
-
-module.exports = router;
+app.listen(PORT, () => {
+   console.log(`Servidor corriendo en http://localhost:${PORT}`); 
+})
