@@ -2,8 +2,16 @@ const db = require('../config/db');
 
 const getCliente = async(req,res) => {
     try{
-        const [rows] = await db.query('SELECT * FROM Clientes');
-        res.json(rows);
+
+        const [rows] = await db.query("SELECT COUNT(*) AS total FROM Clientes");
+
+        if(rows[0].total !== 0){
+            const [rows] = await db.query('SELECT * FROM Clientes');
+            res.json(rows);            
+        } else {
+            return res.send('No hay clientes en la base de datos');
+        }
+
     } catch(error) {
         res.status(500).json({ error: error.message });
     }
@@ -44,11 +52,11 @@ const deleteCliente = async(req,res) => {
     const id = req.params.id;
 
     try {
-        
+
         const [resultado] = await db.query(
             "DELETE FROM Clientes WHERE id = ?"
             , [id]);
-        
+
         if (resultado.affectedRows === 0) {
             return res.status(404).send("Usuario no encontrado");
         }

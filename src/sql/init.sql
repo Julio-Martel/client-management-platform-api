@@ -7,5 +7,8 @@ CREATE TABLE IF NOT EXISTS clientes (
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE,
     telefono VARCHAR(20),
+    rol varchar(30),
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+drop table clientes;
