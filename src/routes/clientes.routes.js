@@ -5,5 +5,6 @@ const clienteController = require('../controllers/cliente.controller');
 
 router.get('/', clienteController.getCliente);
 router.post('/', clienteController.createCliente);
+router.delete('/:id',clienteController.deleteCliente);
 
 module.exports = router;

@@ -40,8 +40,29 @@ const createCliente = async(req,res) => {
 
 }
 
+const deleteCliente = async(req,res) => {
+    const id = req.params.id;
+
+    try {
+        
+        const [resultado] = await db.query(
+            "DELETE FROM Clientes WHERE id = ?"
+            , [id]);
+        
+        if (resultado.affectedRows === 0) {
+            return res.status(404).send("Usuario no encontrado");
+        }
+
+        res.send("Usuario eliminado correctamente");
+        
+    } catch(error){
+        console.error(error);
+        res.status(500).send("Error interno del servidor");
+    }
+}
 
 module.exports = {
     getCliente,
-    createCliente
+    createCliente,
+    deleteCliente
 }
