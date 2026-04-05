@@ -18,9 +18,9 @@ const getCliente = async(req,res) => {
 }
 
 const createCliente = async(req,res) => {  
-    const { nombre, email, telefono, rol } = req.body;
+    const { nombre, usuario, pass, email, telefono, rol } = req.body;
 
-    if(!nombre || !email || !telefono || !rol){
+    if(!nombre || !usuario || !pass || !email || !telefono || !rol){
         return res.status(400).json({ error: 'Faltan datos' });
     }
 
@@ -30,13 +30,15 @@ const createCliente = async(req,res) => {
     
         if(rows[0].total === 0) {
             const [result] = await db.query(
-            `INSERT INTO clientes (nombre, email, telefono, rol)
-                VALUES (?, ?, ?, ?)`,
-            [nombre, email, telefono, rol]
+            `INSERT INTO clientes (nombre, usuario, pass, email, telefono, rol)
+                VALUES (?, ?, ?, ?, ?, ?)`,
+            [nombre, usuario, pass, email, telefono, rol]
             );
 
             res.json({
                 id: result.insertId,
+                usuario,
+                pass,
                 nombre,
                 email,
                 telefono,

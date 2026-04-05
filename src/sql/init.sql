@@ -4,6 +4,8 @@ USE client_management;
 
 CREATE TABLE IF NOT EXISTS clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario varchar(50),
+    pass varchar(50),
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE,
     telefono VARCHAR(20),
@@ -13,3 +15,5 @@ CREATE TABLE IF NOT EXISTS clientes (
 describe clientes;
 
 drop table clientes;
+
+ALTER TABLE Clientes AUTO_INCREMENT = 1;
