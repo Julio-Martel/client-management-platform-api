@@ -1,5 +1,20 @@
 const db = require('../config/db');
 
-const autorizarCliente = (req,res,next) => {
-    
+const login = (req,res,next) => {
+    const {usuario, pass} = req.body;
+
+    try {
+        
+
+
+
+
+    } catch(Error){
+
+    }
+
+
 }
+
+
+module.exports = login;
