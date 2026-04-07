@@ -18,6 +18,7 @@ const verificarRol = async(req,res, next) => {
         })
     }   
 
+    next();
 }
 
 module.exports = {verificarRol};
