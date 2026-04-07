@@ -3,6 +3,10 @@ const db = require('../config/db');
 const login = async(req,res,next) => {
     const {usuario, pass} = req.body;
 
+    if(!usuario || !pass){
+        return res.send('Debe rellenar todo los campos.')
+    }
+
     try {
         const [rows] = await db.query('SELECT * FROM Clientes WHERE usuario = ? AND  pass = ?',[usuario,pass]);
 
