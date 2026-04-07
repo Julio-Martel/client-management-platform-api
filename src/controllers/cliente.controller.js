@@ -1,5 +1,6 @@
 const db = require('../config/db');
 
+//FUNCIONANDO PERFECTAMENTE
 const getCliente = async(req,res) => {
     try{
 
@@ -35,21 +36,12 @@ const createCliente = async (req, res) => {
                 error: 'El usuario o email ya existe'
             });
         }
-
-        // ✅ Insertar cliente (una sola vez)
+o
         const [result] = await db.query(
             `INSERT INTO clientes (nombre, usuario, pass, email, telefono, rol)
              VALUES (?, ?, ?, ?, ?, ?)`,
             [nombre, usuario, pass, email, telefono, rol]
         );
-
-
-        /*
-        
-            CORREGIR ESTO PARA QUE SEA MAS COHERENTE
-        
-        
-        */
 
         res.status(201).json({
             id: result.insertId,
