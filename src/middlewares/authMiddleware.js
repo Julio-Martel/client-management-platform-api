@@ -4,7 +4,7 @@ const login = async(req,res,next) => {
     const {usuario, pass} = req.body;
 
     if(!usuario || !pass){
-        return res.send('Debe rellenar todo los campos.')
+        return res.status(404).json({mensaje: 'Debe rellenar todos los campos.'})
     }
 
     try {
