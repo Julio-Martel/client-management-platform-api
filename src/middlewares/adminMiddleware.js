@@ -18,6 +18,10 @@ const verificarRol = async(req,res, next) => {
         })
     }   
 
+
+    /*ARREGLAR ESTO*/
+
+
     next();
 }
 

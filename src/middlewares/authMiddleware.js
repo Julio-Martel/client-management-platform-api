@@ -16,6 +16,14 @@ const login = async(req,res,next) => {
             })
         }
 
+        const user = rows[0];
+
+        res.json({
+        mensaje: "Login correcto",
+        usuario: user
+        });
+
+
     } catch(Error){
         res.status(500).json('Error del servidor');
     }
