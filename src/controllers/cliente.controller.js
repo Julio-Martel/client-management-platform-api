@@ -1,9 +1,8 @@
 const db = require('../config/db');
 
-//FUNCIONANDO PERFECTAMENTE
+//FUNCIONANDO PERFECTAMENTE, OBTIENE TODOS LOS RECURSOS
 const getCliente = async(req,res) => {
     try{
-
         const [rows] = await db.query("SELECT COUNT(*) AS total FROM Clientes");
 
         if(rows[0].total !== 0){
@@ -18,17 +17,24 @@ const getCliente = async(req,res) => {
     }
 }
 
-const createCliente = async (req, res) => {
-    const { nombre, usuario, pass, email, telefono, rol } = req.body;
 
-    if (!nombre || !usuario || !pass || !email || !telefono || !rol) {
+
+
+
+
+const createCliente = async (req, res) => {
+    const { nombre, usuarioNuevo, passNuevo, email, telefono, rol } = req.body;
+
+    if (!nombre || !usuarioNuevo || !passNuevo || !email || !telefono || !rol) {
         return res.status(400).json({ error: 'Faltan datos' });
     }
 
     try {
+
+
         const [rows] = await db.query(
             'SELECT * FROM clientes WHERE usuario = ? OR email = ?',
-            [usuario, email]
+            [usuarioNuevo, email]
         );
 
         if (rows.length > 0) {
@@ -36,11 +42,11 @@ const createCliente = async (req, res) => {
                 error: 'El usuario o email ya existe'
             });
         }
-o
+        
         const [result] = await db.query(
-            `INSERT INTO clientes (nombre, usuario, pass, email, telefono, rol)
+            `INSERT INTO clientes (nombre, usuarioNuevo, passNuevo, email, telefono, rol)
              VALUES (?, ?, ?, ?, ?, ?)`,
-            [nombre, usuario, pass, email, telefono, rol]
+            [nombre, usuarioNuevo, passNuevo, email, telefono, rol]
         );
 
         res.status(201).json({
