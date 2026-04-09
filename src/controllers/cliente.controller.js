@@ -1,7 +1,7 @@
 const db = require('../config/db');
 
 //FUNCIONANDO PERFECTAMENTE, OBTIENE TODOS LOS RECURSOS
-const getCliente = async(req,res) => {
+/*const getCliente = async(req,res) => {
     try{
         const [rows] = await db.query("SELECT COUNT(*) AS total FROM Clientes");
 
@@ -15,26 +15,23 @@ const getCliente = async(req,res) => {
     } catch(error) {
         res.status(500).json({ error: error.message });
     }
-}
+}*/
 
-
-
-
-
+const bcrypt = require('bcrypt');
 
 const createCliente = async (req, res) => {
-    const { nombre, usuarioNuevo, passNuevo, email, telefono, rol } = req.body;
 
-    if (!nombre || !usuarioNuevo || !passNuevo || !email || !telefono || !rol) {
+    const { nombre, usuario, pass, email, telefono, rol } = req.body;
+
+    if (!nombre || !usuario || !pass || !email || !telefono || !rol) {
         return res.status(400).json({ error: 'Faltan datos' });
     }
 
     try {
 
-
         const [rows] = await db.query(
             'SELECT * FROM clientes WHERE usuario = ? OR email = ?',
-            [usuarioNuevo, email]
+            [usuario, email]
         );
 
         if (rows.length > 0) {
@@ -42,11 +39,13 @@ const createCliente = async (req, res) => {
                 error: 'El usuario o email ya existe'
             });
         }
-        
+
+        const hashedPassword = await bcrypt.hash(pass, 10);
+
         const [result] = await db.query(
-            `INSERT INTO clientes (nombre, usuarioNuevo, passNuevo, email, telefono, rol)
+            `INSERT INTO clientes (nombre, usuario, pass, email, telefono, rol)
              VALUES (?, ?, ?, ?, ?, ?)`,
-            [nombre, usuarioNuevo, passNuevo, email, telefono, rol]
+            [nombre, usuario, hashedPassword, email, telefono, rol]
         );
 
         res.status(201).json({
@@ -64,7 +63,7 @@ const createCliente = async (req, res) => {
     }
 };
 
-const deleteCliente = async(req,res) => {
+/*const deleteCliente = async(req,res) => {
     const id = req.params.id;
 
     try {
@@ -83,10 +82,6 @@ const deleteCliente = async(req,res) => {
         console.error(error);
         res.status(500).send("Error interno del servidor");
     }
-}
+}*/
 
-module.exports = {
-    getCliente,
-    createCliente,
-    deleteCliente
-}
+module.exports = {createCliente}
