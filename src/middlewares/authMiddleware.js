@@ -1,35 +1,23 @@
-const db = require('../config/db');
+const jwt = require('jsonwebtoken');
 
-const login = async(req,res,next) => {
-    const {usuario, pass} = req.body;
+const authMiddleware = (req,res,next) => {
+    const authHeader = req.headers.authorization;
 
-    if(!usuario || !pass){
-        return res.status(404).json({mensaje: 'Debe rellenar todos los campos.'})
+     if (!authHeader) {
+        return res.status(401).json({ mensaje: 'Token requerido' });
     }
+    
+    const token = authHeader.split(' ')[1];
 
     try {
-        const [rows] = await db.query('SELECT * FROM Clientes WHERE usuario = ? AND  pass = ?',[usuario,pass]);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        if(rows.length === 0){
-            return res.status(404).json({
-                mensaje: "Usuario no encontrado"
-            })
-        }
-
-        const user = rows[0];
-
-        res.json({
-        mensaje: "Login correcto",
-        usuario: user
-        });
-
-
-    } catch(Error){
-        res.status(500).json('Error del servidor');
-    }
-
-    next();
+        req.usuario = decoded; 
+        next();
+    } catch (error) {
+        return res.status(403).json({ mensaje: 'Token inválido' });
+    }   
 
 }
 
-module.exports = {login};
+module.exports = {authMiddleware};
