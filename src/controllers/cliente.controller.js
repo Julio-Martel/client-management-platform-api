@@ -79,6 +79,39 @@ const updateCliente = async(req,res) => {
 
 }
 
+const putCliente = async(req,res) => {
+    const {id} = req.params;
+    const {nombre, usuario, pass, email, telefono, rol} = req.body;
+
+    if(!nombre || !usuario || !pass || !email || !telefono || !rol){
+        return res.send('Debe rellenar los campos');
+    }
+
+    /*CORREJIR ESTO PARA VER COMO CONTINUAR*/
+
+
+    try {
+
+        const hashedPassword = await bcrypt.hash(pass, 10);
+
+        const [rows] = await db.query('UPDATE Clientes SET nombre = ?, usuario = ?, pass = ?, email = ?, telefono = ?, rol = ? WHERE id = ?',[nombre,usuario,hashedPassword,email,telefono,rol,id]);
+
+
+        res.status(201).json({
+            id: rows.insertId,
+            nombre,
+            usuario,
+            email,
+            telefono,
+            rol
+        });
+
+    } catch(error){
+        console.log(error);
+    }
+}
+
+
 /*const deleteCliente = async(req,res) => {
     const id = req.params.id;
 
@@ -103,5 +136,6 @@ const updateCliente = async(req,res) => {
 module.exports = {
     getCliente,
     createCliente,
-    updateCliente
+    updateCliente,
+    putCliente
 }
