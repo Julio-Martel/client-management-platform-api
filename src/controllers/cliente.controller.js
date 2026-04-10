@@ -1,7 +1,6 @@
 const db = require('../config/db');
 
-//FUNCIONANDO PERFECTAMENTE, OBTIENE TODOS LOS RECURSOS
-/*const getCliente = async(req,res) => {
+const getCliente = async(req,res) => {
     try{
         const [rows] = await db.query("SELECT COUNT(*) AS total FROM Clientes");
 
@@ -15,11 +14,11 @@ const db = require('../config/db');
     } catch(error) {
         res.status(500).json({ error: error.message });
     }
-}*/
+}
 
 const bcrypt = require('bcrypt');
 
-const createCliente = async (req, res) => {
+const createCliente = async(req, res) => {
 
     const { nombre, usuario, pass, email, telefono, rol } = req.body;
 
@@ -63,6 +62,23 @@ const createCliente = async (req, res) => {
     }
 };
 
+const updateCliente = async(req,res) => {
+    const {id} = req.params;
+    const {usuario} = req.body;
+    
+    try{
+
+        const resultado = db.query('UPDATE Clientes SET usuario = ? WHERE id = ? ',[usuario,id]);
+
+        res.json({ mensaje: 'Usuario actualizado correctamente' });
+
+    } catch(error){
+        console.log(error);
+    }
+
+
+}
+
 /*const deleteCliente = async(req,res) => {
     const id = req.params.id;
 
@@ -84,4 +100,8 @@ const createCliente = async (req, res) => {
     }
 }*/
 
-module.exports = {createCliente}
+module.exports = {
+    getCliente,
+    createCliente,
+    updateCliente
+}
