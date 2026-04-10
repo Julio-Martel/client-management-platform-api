@@ -1,9 +1,12 @@
 const express = require('express');
-const clientesRoutes = require('../src/routes/clientes.routes');
-
 const app = express();
+
 app.use(express.json());
 
-app.use('/clientes', clientesRoutes);
+const authRoutes = require('../src/routes/auth.routes');
+const clienteRoutes = require('../src/routes/clientes.routes');
+
+app.use('/api', authRoutes);        
+app.use('/api/clientes', clienteRoutes);
 
 module.exports = app;
