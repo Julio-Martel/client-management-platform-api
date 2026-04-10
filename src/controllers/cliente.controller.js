@@ -82,14 +82,11 @@ const updateCliente = async(req,res) => {
 const putCliente = async(req,res) => {
     const {id} = req.params;
     const {nombre, usuario, pass, email, telefono, rol} = req.body;
-
+za
     if(!nombre || !usuario || !pass || !email || !telefono || !rol){
         return res.send('Debe rellenar los campos');
     }
-
-    /*CORREJIR ESTO PARA VER COMO CONTINUAR*/
-
-
+    
     try {
 
         const hashedPassword = await bcrypt.hash(pass, 10);
@@ -110,7 +107,6 @@ const putCliente = async(req,res) => {
         console.log(error);
     }
 }
-
 
 /*const deleteCliente = async(req,res) => {
     const id = req.params.id;
